@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block category %}
+  <!--category-->
+  {% for i in category %}
+    <li class="nav-item text-black ">
+      <a class="nav-link text-black font-weight-bold"
+          href="#"> 
+          {{ i.category }} 
+      </a>
+    </li>
+  {% endfor %}
+{% endblock  %}
+
+ {% block content %}
+<style>
+    
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text{
+    color: white;
+  }
+    .card{
+    box-shadow: 0 16px 48px #E3E7EB;
+  }
+  .heading {
+    text-align: center;
+  }
+</style>
+
+<!--header class="masthead" >
+  <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class=" col-md-8 col-md-10 mx-auto">
+          <div class="heading">
+            <h3 class=" heading my-4 mt-3 text-white"> সোহাগের পাতা </h3>
+            <h3 class='heading my-4 mt-3 text-white'>Stories about Python, Django and Web Development</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header-->
+        
+<div class="container">
+  <div class="row">
+    <!-- Blog Entries Column -->
+    <div class="col-md-8 mt-3 left">
+
+      {% for post in post_list %}
+
+        <div class="card mb-4" >
+          <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+              <p class="card-text text-muted h6">Author:&nbsp;{{ post.author }} | {{ post.created_on}} | 
+              Category:<a href="#"><b>{{ post.category}}</b></a> | 
+              </p>      
+                <p class="card-text">{{post.description|slice:":200" }}</p>
+                  <a href="#" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+        </div>
+        {% endfor %}
+          </div>
+            {% block sidebar %}
+            {% include 'sidebar.html' %}
+            {% endblock sidebar %}
+          </div>
+    </div>
+    {% if post_list.has_other_pages %}
+      <nav aria-label="Page navigation conatiner"></nav>
+      <ul class="pagination justify-content-center">
+        {% if post_list.has_previous %}
+          <li><a href="#" class="page-link">&laquo; PREV </a></li>
+        {% endif %}
+        {% if post_list.has_next %}
+          <li><a href="#" class="page-link"> NEXT &raquo;</a></li>
+        {% endif %}
+      </ul>
+  </div>    
+</div>
+{% endif %}
+{% endblock %}

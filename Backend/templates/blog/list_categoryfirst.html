@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+       
+{% block content %}
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 18px;
+            background-color: #fdfdfd;
+        }
+        .head_text{
+            color: white;
+        }
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+    </style>
+          <!-- Content Goes here -->           
+    <div class="container">
+        <div class="row">
+            <!--Detail post-->
+            <div class="col-md-8 card mb-4  mt-3 left  top">
+              <div class="card-body">
+                {% for data in dataset %}
+                  <ul>
+                    <li>
+                      <h1> <a class=" font-weight-bold"  href="{% url 'list_post' %}"> {{ data.categoryfirst }} </a>
+                      </h1>
+                    </li>
+                  </ul>          
+                {% endfor %}
+              </div>
+            </div>
+        </div>
+    </div>        
+{% endblock %}

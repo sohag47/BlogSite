@@ -1,0 +1,59 @@
+1.create folder:
+> mkdir Backend
+
+2. goto portfolio_sohag folder
+> cd Backend
+
+3.create virtual environment:
+> python -m venv env
+
+4. activate virtual environment:
+> env\Scripts\activate (for windows)
+> source venv/bin/activate ( for linux)
+
+5. install Django:
+> pip install Django
+
+6. create a project:
+> django-admin startproject blogsite .
+
+
+7. run project server:
+> python manage.py runserver
+
+8. create djano app:
+> python manage.py startapp blog
+> python manage.py startapp accounts
+> python manage.py startapp dashboard
+
+9. database model initalise
+> python manage.py makemigrations
+
+10. database model final :
+> python manage.py migrate
+
+11.create database user id, password
+> python manage.py createsuperuser
+
+12. django pic
+> pip install Pillow
+
+13. django search filter
+> pip install django-filter
+#videofilter = VideoFilter(request.GET, queryset=video_item)
+    #video_item = videofilter.qs
+
+14.Rendering Bootstrap Forms
+> pip install django-crispy-forms
+
+15.show installed library:
+> pip freeze
+
+16. uninstall library(example):
+> pip uninstall django-widget-tweaks
+
+14. create requirements.txt file:
+> pip freeze > requirements.txt
+
+15. install django rest framework:
+> pip install djangorestframework django-cors-headers
