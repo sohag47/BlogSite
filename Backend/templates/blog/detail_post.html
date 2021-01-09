@@ -2,6 +2,18 @@
 
 {% block title %} {{ post.title }} {% endblock title %}
 
+{% block category %}
+  <!--category-->
+  {% for i in category %}
+    <li class="nav-item text-black ">
+      <a class="nav-link text-black font-weight-bold"
+          href="{% url 'list_category' %}"> 
+          {{ i.category }} 
+      </a>
+    </li>
+  {% endfor %}
+{% endblock  %}
+
 {% block content %}
     <style>
         body {
@@ -25,8 +37,8 @@
                     <div class="card-body">
                         <h1> {{ post.title }}</h1>
                         <p class=" text-muted">{{ post.author }} | {{ post.created_on }} | 
-                        Primary Category:<a href="{% url 'list_categoryfirst' %}"><b>{{ post.category.category}}</b></a> |
-                        Secondary Category:<a href="{% url 'list_categorysecond' %}"><b>{{ post.category}}</b></a></p>
+                        Category:<a href="{% url 'list_category' %}"><b>{{ post.category }}</b></a> 
+                        </b></a></p>
                         
                         <p class="card-text ">{{ post.description | safe }}</p>        
                         <a   class="btn btn-outline-secondary"
