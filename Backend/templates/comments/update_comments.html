@@ -1,16 +1,30 @@
-{% extends 'base.html' %}
- {% block content %}
-    <div class="main"> 
-    <!-- Create a Form -->
-    <form method="POST"> 
-        <!-- Security token by Django -->
-        {% csrf_token %} 
-  
-        <!-- form as paragraph -->
-        {{ form.as_p }} 
-  
-        <input type="submit" value="Update"> 
-    </form> 
-  
-</div> 
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<div class="container-fluid mainContent">
+  <div class="row">
+  <div class="col-12 col-sm-2 col-md-2 col-xl-2"></div>
+    <div class="col-12 col-sm-8 col-md-8 col-xl-8">
+    <br /><br />
+      <div class="card listPostCard">
+        <div class="card-header listPostCHeader">
+          <h2 class="card-title">Update Comment</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            <!-- Security token -->
+            {% csrf_token %}
+
+            <!-- Using the formset -->
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-outline-success">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

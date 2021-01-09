@@ -1,0 +1,40 @@
+.mainContent {
+  background-color: #abb2b9;
+}
+.heading {
+  font-family: Gilroy;
+}
+.listPostCard,
+.listSidebarCard {
+  border-radius: 20px;
+  background-color: #1b2631;
+  color: #ffffff;
+  margin-bottom: 30px;
+  box-shadow: 0 16px 48px #1b2631;
+}
+/*style="box-shadow: 0 16px 48px #e3e7eb"*/
+.listPostCHeader,
+.PostDetailCHeader {
+  border-top-right-radius: 20px !important;
+  border-top-left-radius: 20px !important;
+  background-color: #17202a;
+}
+.PostDetailCard {
+  border-radius: 20px;
+  background-color: #1b2631;
+  color: #ffffff;
+  margin: 50px 20px 50px 100px;
+  box-shadow: 0 16px 48px #1b2631;
+}
+.PostDetailCardComment {
+  border-radius: 20px;
+  background-color: #1b2631;
+  color: #ffffff;
+  box-shadow: 0 16px 48px #1b2631;
+  margin: 20px 20px 20px 100px;
+}
+a.latestPost {
+  text-decoration: none;
+  color: #ffffff;
+  text-transform: none;
+}

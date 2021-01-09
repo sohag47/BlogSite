@@ -1,32 +1,18 @@
 {% extends 'base.html' %} 
 {% load crispy_forms_tags %}
-{% block title %} Sign up to Streamer {% endblock title %} 
+{% block title %} Sign up to সোহাগের পাতা {% endblock title %} 
 
 {% block content %}
-<style>
-  .container{
-    padding-left: 0px;
-    padding-top: 0px;
-}
-  .card-header{
-   background-color: #2a3042;
-   color:  #f8f8fb;
-   border-radius: 20px;
-  }
-  .card{
-    border-radius: 20px;
-  }
- </style>
-<div class="container">
+<div class="container-fluid mainContent">
   <h1 class="text-center logo my-4">
-    <a href="{% url 'home' %}">Streamer</a>
+    <a href="{% url 'home' %}">সোহাগের পাতা</a>
   </h1>
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-8">
-      <div class="card shadow-lg p-3 mb-5">
+      <div class="card listPostCard">
         <form method="POST" action="" novalidate>
           {% csrf_token %}
-          <div class="card-header">
+          <div class="card-header listPostCHeader">
             <div class="card-title text-center">
               <h1 class="text-light">Sign up</h1>
             </div>

@@ -5,7 +5,7 @@ from .models import Category, Post, Comments
 # Register your models here.
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'category', 'status', 'created_on')
+    list_display = ('id','title', 'author', 'category', 'status', 'created_on')
     list_filter = ("status",)
     search_fields = ['title', 'content']
     #prepopulated_fields = {'slug': ('title',)}
