@@ -1,10 +1,10 @@
 from django.urls import path
 
 from . import views
-from .views import (create_category, create_post, delete_category,
+from .views import (create_category, create_post,delete_category,
                     delete_comments, delete_post, detail_post, list_category,
-                    list_post, update_category, update_comments, update_post)
-
+                    list_post, update_category, update_comments, update_post
+)
 urlpatterns = [
     # TODO for testing home page
     path('', views.list_post, name='home'),

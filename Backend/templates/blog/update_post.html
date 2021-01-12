@@ -15,7 +15,22 @@
             {% csrf_token %}
 
             <!-- Using the formset -->
-            {{ form|crispy }}
+            <div class="row">
+                <div class="col-12">
+                  {{ form.title|as_crispy_field }}
+                </div>
+                <div class="col-12">
+                  {{ form.description|as_crispy_field }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  {{ form.category|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                  {{ form.status|as_crispy_field }}
+                </div>
+              </div>
 
             <button type="submit" class="btn btn-outline-success">
             <i class="fa fa-check" aria-hidden="true"></i>

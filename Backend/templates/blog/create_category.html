@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+{% load crispy_forms_tags %}
+<div class="container-fluid mainContent">
+  <div class="row">
+    <div class="col-12 col-sm-2 col-md-2 col-xl-2"></div>
+    <div class="col-12 col-sm-8 col-md-8 col-xl-8">
+    <br /><br />
+      <div class="card listPostCard">
+        <div class="card-header listPostCHeader">
+          <h2 class="card-title">Create a New Category</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            <!-- Security token -->
+            {% csrf_token %}
+
+            <!-- Using the formset -->
+            <div class="row">
+                <div class="col-8">
+                  {{ form.category|as_crispy_field }}
+                </div>
+              </div>
+
+            <button type="submit" class="btn btn-outline-success">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

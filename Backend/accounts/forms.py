@@ -2,15 +2,10 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
-#from accounts.models import ExtraUserInfo
+from .models import ExtraUserInfo
 
+#from accounts.models import ExtraUserInfo
 class SignUpForm(UserCreationForm):
-    '''
-    email = forms.CharField(max_length=254,
-                            required=True,
-                            widget=forms.EmailInput()
-                            )
-'''
     class Meta(object):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email',
@@ -88,3 +83,8 @@ class LogInForm(AuthenticationForm):
                 }
             ),
         }
+
+class ExtraUserInfoForm(forms.ModelForm):
+    class Meta:
+        model = ExtraUserInfo
+        fields = ['profile_img', 'country', 'language', 'description']

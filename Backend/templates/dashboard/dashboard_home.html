@@ -1,0 +1,79 @@
+{% extends 'base.html' %} 
+{% load humanize %} 
+
+{% block title %} 
+DashBoard|সোহাগের পাতা
+<!-- Content Goes here -->
+{% endblock title %} 
+
+{% block category %}
+<!--category-->
+<li class="nav-item text-black">
+  <a
+    class="nav-link text-black font-weight-bold"
+    href=" {% url 'dashboard' %} "
+  >
+    <i class="fa fa-home" aria-hidden="true"></i>&nbsp; DashBoard
+  </a>
+</li>
+<li class="nav-item text-black">
+  <a
+    class="nav-link text-black font-weight-bold"
+    href=" {% url 'create_post' %} "
+  >
+    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Create Post
+  </a>
+</li>
+<li class="nav-item text-black">
+  <a
+    class="nav-link text-black font-weight-bold"
+    href=" {% url 'create_category' %} "
+  >
+    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Create Category
+  </a>
+</li>
+<li class="nav-item text-black">
+  <a
+    class="nav-link text-black font-weight-bold"
+    href=" {% url 'CreateUserInfo' %} "
+  >
+    <i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp; Edit Profile
+  </a>
+</li>
+{% endblock category %}
+
+{% block userinfo %}
+<!--userinfo-->
+<style>
+.profile_pic_user {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+</style>
+  {% for data in user_extra %}
+    <img
+        class="img-circle profile_pic_user"
+        src="{{ data.profile_img.url }}"
+    />
+  {% endfor %}
+{% endblock userinfo %}
+
+
+
+{% block content %}
+<div class="container-fluid mainContent">
+  <div class="row">
+    <!-- Blog Entries Column -->
+    <div class="col-md-1 col-xl-1"></div>
+    <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+      <br />
+      <br />
+      <div class="card">
+        <div class><h1>সোহাগের পাতা</h1></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content Goes here -->
+{% endblock content %}

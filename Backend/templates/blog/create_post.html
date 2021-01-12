@@ -1,17 +1,34 @@
 {% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
-<div class="container">
+<div class="container-fluid mainContent">
   <div class="row">
-    <div class="col-md-8 card mb-4 mt-3">
-      <div class="card-body">
-        <form method="POST" enctype="multipart/form-data">
-          <!-- Security token -->
-          {% csrf_token %}
+    <div class="col-12 col-sm-2 col-md-2 col-xl-2"></div>
+    <div class="col-12 col-sm-8 col-md-8 col-xl-8">
+      <br /><br />
+      <div class="card listPostCard">
+        <div class="card-header listPostCHeader">
+          <h2 class="card-title">Create a New Post</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            <!-- Security token -->
+            {% csrf_token %}
 
-          <!-- Using the formset -->
-          {{ form|crispy }}
+            <!-- Using the formset -->
+            <div class="row">
+              <div class="col-12">{{ form.title|as_crispy_field }}</div>
+              <div class="col-12">{{ form.description|as_crispy_field }}</div>
+            </div>
+            <div class="row">
+              <div class="col-6">{{ form.category|as_crispy_field }}</div>
+              <div class="col-6">{{ form.status|as_crispy_field }}</div>
+            </div>
 
-          <input type="submit" value="Submit" />
-        </form>
+            <button type="submit" class="btn btn-outline-success">
+              <i class="fa fa-check" aria-hidden="true"></i>
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,9 @@
+from accounts.models import ExtraUserInfo
+from django.contrib.auth.models import Permission, User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import Http404
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
-
+from django.contrib.auth.decorators import login_required
 from .forms import CategoryForm, CommentForm, PostForm
 from .models import Category, Comments, Post
 
@@ -8,6 +11,7 @@ from .models import Category, Comments, Post
 
 # Category CURD Operation:
 # Create operation:
+@login_required
 def create_category(request):
     context = {}
     form = CategoryForm(request.POST or None)
@@ -15,16 +19,16 @@ def create_category(request):
         form.save()
         return HttpResponseRedirect('/')
     context['form'] = form
-    return render(request, 'blog/create_categoryfirst.html', context)
+    return render(request, 'blog/create_category.html', context)
 
-
+@login_required
 # Read operation:
 def list_category(request):
     context = {}
     context['dataset'] = Category.objects.all()
-    return render(request, 'blog/list_categoryfirst.html', context)
+    return render(request, 'blog/list_category.html', context)
 
-
+@login_required
 # Update  operation:
 def update_category(request, id):
     context = {}
@@ -35,9 +39,9 @@ def update_category(request, id):
         form.save()
         return HttpResponseRedirect('/'+id)
     context['form'] = form
-    return render(request, 'blog/update_categoryfirst.html', context)
+    return render(request, 'blog/update_category.html', context)
 
-
+@login_required
 # Delete operation:
 def delete_category(request, id):
     context = {}
@@ -45,9 +49,9 @@ def delete_category(request, id):
     if request.method == "POST":
         obj.delete()
         return HttpResponseRedirect("/")
-    return render(request, "blog/delete_categoryfirst.html", context)
+    return render(request, "blog/delete_category.html", context)
 
-
+@login_required
 # Post view CURD Operation:
 # Read operation:
 def list_post(request):
@@ -56,6 +60,7 @@ def list_post(request):
 
     category = Category.objects.all()
     object_list = Post.objects.all()
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
 
     paginator = Paginator(object_list, 3)
     page = request.GET.get('page')
@@ -72,49 +77,26 @@ def list_post(request):
         'post_list': post_list,
         'object_list': object_list,
         'category': category,
+        'user_extra': user_extra
     }
-    return render(request, 'blog/list_post.html', context)
+    return render(request, 'blog/home.html', context)
 
-
+@login_required
 # Create operation:
 def create_post(request):
     context = {}
-    form = PostForm(request.POST or None)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-        return HttpResponseRedirect('/')
-    context['form'] = form
+    if request.user.is_authenticated:
+        form = PostForm(request.POST )
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            return HttpResponseRedirect('/')
+
+        context['form'] = form
     return render(request, 'blog/create_post.html', context)
 
-# Read operation:
-def list_post(request):
-    object_list = {}
-    category = {}
-
-    category = Category.objects.all()
-    object_list = Post.objects.all()
-
-    paginator = Paginator(object_list, 3)
-    page = request.GET.get('page')
-    try:
-        post_list = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        post_list = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        post_list = paginator.page(paginator.num_pages)
-    context = {
-        'page': page,
-        'post_list': post_list,
-        'object_list': object_list,
-        'category': category,
-    }
-    return render(request, 'blog/list_post.html', context)
-
-
+@login_required
 # Update  operation:
 def update_post(request, id):
     context = {}
@@ -123,13 +105,13 @@ def update_post(request, id):
     form = PostForm(request.POST or None, instance=obj)
     if form.is_valid():
         instance = form.save(commit=False)
-        instance.user = request.user
+        instance.author = request.user
         instance.save()
         return HttpResponseRedirect('/'+id)
     context['form'] = form
     return render(request, 'blog/update_post.html', context)
 
-
+@login_required
 # Delete operation:
 def delete_post(request, id):
     context = {}
@@ -139,7 +121,7 @@ def delete_post(request, id):
         return HttpResponseRedirect("/")
     return render(request, "blog/delete_post.html", context)
 
-
+@login_required
 # Detail  operation:
 def detail_post(request, id):
     post = {}
@@ -168,21 +150,21 @@ def detail_post(request, id):
     }
     return render(request, 'blog/detail_post.html', context)
 
-
+@login_required
 # Comment CURD Operations:
 # Update Comments:
 def update_comments(request, id):
     context = {}
     obj = get_object_or_404(Comments, id=id)
 
-    form = CommentForm(request.POST or None, instance=obj)
+    form = CommentForm(request.POST or None,request.FILES, instance=obj)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/'+id)
     context['form'] = form
     return render(request, 'comments/update_comments.html', context)
 
-
+@login_required
 # Delete operation:
 def delete_comments(request, id):
     context = {}

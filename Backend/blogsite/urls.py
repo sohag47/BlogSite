@@ -1,16 +1,17 @@
-from django.contrib import admin
-from django.urls import include, path
+from accounts import views as accounts_views
 # for django images
 from django.conf import settings
-from . import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from accounts import views as accounts_views
+from django.urls import include, path
 
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
+    path('dashboard/', include('dashboard.urls')),
     # Signup url
     path('signup/', accounts_views.signup, name='signup'),
 
@@ -39,4 +40,4 @@ urlpatterns = [
     path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(
         template_name='accounts/password_change_done.html'), name='password_change_done'
     ),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # for django images
