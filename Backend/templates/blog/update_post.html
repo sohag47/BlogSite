@@ -1,4 +1,65 @@
-{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} 
+
+{% block title %}
+Update Post 
+{% endblock title %}
+
+{% block category %}
+  <!--category-->
+  {% for i in category %}
+    <li class="nav-item text-black ">
+      <a class="nav-link text-black font-weight-bold"
+          href="{% url 'list_category' %}"> 
+          {{ i.category }} 
+      </a>
+    </li>
+  {% endfor %}
+{% endblock  %}
+
+
+{% block userinfo %}
+<!--userinfo-->
+<style>
+.profile_pic_user {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+</style>
+  {% for data in user_extra %}
+    <img
+        class="img-circle profile_pic_user"
+        src="{{ data.profile_img.url }}"
+    />
+  {% endfor %}
+{% endblock userinfo %}
+
+{% block breadcrumb %}
+    <style>
+      .breadcrumbStyle {
+        margin: 70px 20px 0px 20px;
+      }
+    </style>
+    <div class="breadcrumbStyle">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page">
+            <a href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+             <a href="{% url 'detail_post' id=obj.id %}">Post Detail</a>
+            
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+            Update Post
+            </li>
+        </ol>
+      </nav>
+    </div>
+    {% endblock %}
+
+
+{% block content %}
 
 <div class="container-fluid mainContent">
   <div class="row">

@@ -1,8 +1,42 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block title %}
+Delete Comments 
+{% endblock title %}
+
+{% block category %}
+  <!--category-->
+  {% for i in category %}
+    <li class="nav-item text-black ">
+      <a class="nav-link text-black font-weight-bold"
+          href="{% url 'list_category' %}"> 
+          {{ i.category }} 
+      </a>
+    </li>
+  {% endfor %}
+{% endblock  %}
+
+{% block userinfo %}
+<!--userinfo-->
+<style>
+.profile_pic_user {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+</style>
+  {% for data in user_extra %}
+    <img
+        class="img-circle profile_pic_user"
+        src="{{ data.profile_img.url }}"
+    />
+  {% endfor %}
+{% endblock userinfo %}
+
+{% block content %}
 <div class="container-fluid mainContent">
   <div class="row">
-  <div class="col-12 col-sm-2 col-md-2 col-xl-2"></div>
-    <div class="col-12 col-sm-8 col-md-8 col-xl-8">
+  <div class="col-12 col-sm-1 col-md-1 col-xl-1"></div>
+    <div class="col-12 col-sm-10 col-md-10 col-xl-10">
       <br /><br />
       <div class="card listPostCard">
         <div class="card-header listPostCHeader">
@@ -12,15 +46,43 @@
           <!-- Create a Form -->
           <form method="POST">
             <!-- Security token by Django -->
-            {% csrf_token %} Are you want to delete this item ?
-            <button type="submit" class="btn btn-outline-danger">
-            <i class="fa fa-ban" aria-hidden="true"></i>
+            {% csrf_token %} 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Author Name</th>
+                  <th scope="col">Comments</th>
+                  <th scope="col">Last Update</th>
+                  <th scope="col">
+                    Are you want to delete this item ?
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <th scope="row">{{ obj.id }}</th>
+                  <td>{{ obj.post }}</td>
+                  <td>{{ obj.name }}</td>
+                  <td>{{ obj.body }}</td>
+                  <td>{{ obj.updated }}</td>
+                  <td>
+                    <button type="submit" class="btn btn-outline-danger">
+                      <i class="fa fa-ban" aria-hidden="true"></i>
             
-            Submit
-            </button>
-            <a href="/" class="btn btn-outline-primary">
-            <i class="fa fa-check" aria-hidden="true"></i>
-            Cancel </a>
+                        Submit
+                        </button>
+                      <a href="/" class="btn btn-outline-primary">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Cancel </a>
+                  </td>
+                </tr>
+               
+              </tbody>
+            </table>
+            
           </form>
         </div>
       </div>

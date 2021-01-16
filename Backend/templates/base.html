@@ -98,11 +98,9 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              
               {% block userinfo %}
-                <!--userinfo-->
-              {% endblock userinfo %}
-              {{ user.username }}
+              <!--userinfo-->
+              {% endblock userinfo %} {{ user.username }}
             </a>
             <div
               class="dropdown-menu dropdown-menu-right"
@@ -136,17 +134,39 @@
         {% endif %}
       </div>
     </nav>
-    <br>
+
+    {% block breadcrumb %}
+    <style>
+      .breadcrumbStyle {
+        margin: 70px 20px 0px 20px;
+      }
+    </style>
+    <div class="breadcrumbStyle">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">
+            Home</li>
+        </ol>
+      </nav>
+    </div>
+    {% endblock %}
+
     {% block content %}
 
     <!-- Content Goes here -->
     {% endblock content %}
-
     <!-- Footer -->
-    <footer class="footer">
+    <footer
+      class="footer_style"
+      style="
+        background-color: #17202a;
+        color: #eaecee;
+        text-align: center;
+        padding: 20px 0px 20px 0px;
+      "
+    >
       <p>Copyright &copy; 2020 সোহাগের পাতা All Right Reserved</p>
     </footer>
-
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

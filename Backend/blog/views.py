@@ -1,9 +1,10 @@
 from accounts.models import ExtraUserInfo
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission, User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
-from django.contrib.auth.decorators import login_required
+
 from .forms import CategoryForm, CommentForm, PostForm
 from .models import Category, Comments, Post
 
@@ -14,18 +15,31 @@ from .models import Category, Comments, Post
 @login_required
 def create_category(request):
     context = {}
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     form = CategoryForm(request.POST or None)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/')
     context['form'] = form
+    context = {
+        'user_extra':user_extra,
+        'form':form
+    }
     return render(request, 'blog/create_category.html', context)
 
-@login_required
+
 # Read operation:
 def list_category(request):
     context = {}
-    context['dataset'] = Category.objects.all()
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
+    dataset = Category.objects.all()
+    category = Category.objects.all()
+
+    context = {
+        'user_extra':user_extra,
+        'dataset':dataset,
+        'category':category
+    }
     return render(request, 'blog/list_category.html', context)
 
 @login_required
@@ -33,7 +47,7 @@ def list_category(request):
 def update_category(request, id):
     context = {}
     obj = get_object_or_404(Category, id=id)
-
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     form = CategoryForm(request.POST or None, instance=obj)
     if form.is_valid():
         form.save()
@@ -45,13 +59,14 @@ def update_category(request, id):
 # Delete operation:
 def delete_category(request, id):
     context = {}
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     obj = get_object_or_404(Category, id=id)
     if request.method == "POST":
         obj.delete()
         return HttpResponseRedirect("/")
     return render(request, "blog/delete_category.html", context)
 
-@login_required
+
 # Post view CURD Operation:
 # Read operation:
 def list_post(request):
@@ -60,7 +75,11 @@ def list_post(request):
 
     category = Category.objects.all()
     object_list = Post.objects.all()
-    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
+    
+    if request.user.is_authenticated:
+        user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
+    else:
+        user_extra = 'Guest user'
 
     paginator = Paginator(object_list, 3)
     page = request.GET.get('page')
@@ -85,8 +104,9 @@ def list_post(request):
 # Create operation:
 def create_post(request):
     context = {}
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     if request.user.is_authenticated:
-        form = PostForm(request.POST )
+        form = PostForm(request.POST or None )
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = request.user
@@ -94,37 +114,58 @@ def create_post(request):
             return HttpResponseRedirect('/')
 
         context['form'] = form
+        context = {
+            'form':form,
+            'user_extra':user_extra
+        }
     return render(request, 'blog/create_post.html', context)
 
 @login_required
 # Update  operation:
 def update_post(request, id):
     context = {}
-    obj = get_object_or_404(Post, id=id)
 
+    obj = get_object_or_404(Post, id=id)
+    category = Category.objects.all()
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     form = PostForm(request.POST or None, instance=obj)
+    
     if form.is_valid():
         instance = form.save(commit=False)
         instance.author = request.user
         instance.save()
         return HttpResponseRedirect('/'+id)
-    context['form'] = form
+    context = {
+        'user_extra': user_extra,
+        'form': form,
+        'category':category,
+        'obj':obj
+    }
     return render(request, 'blog/update_post.html', context)
 
 @login_required
 # Delete operation:
 def delete_post(request, id):
     context = {}
+    category = Category.objects.all()
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     obj = get_object_or_404(Post, id=id)
     if request.method == "POST":
         obj.delete()
         return HttpResponseRedirect("/")
+
+    context = {
+        'obj':obj,
+        'user_extra':user_extra,
+        'category':category
+    }
     return render(request, "blog/delete_post.html", context)
 
 @login_required
 # Detail  operation:
 def detail_post(request, id):
     post = {}
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
     category = Category.objects.all()
     post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True)
@@ -146,6 +187,7 @@ def detail_post(request, id):
         'new_comment': new_comment,
         'comment_form': comment_form,
         'category': category,
+        'user_extra': user_extra
 
     }
     return render(request, 'blog/detail_post.html', context)
@@ -156,20 +198,35 @@ def detail_post(request, id):
 def update_comments(request, id):
     context = {}
     obj = get_object_or_404(Comments, id=id)
-
-    form = CommentForm(request.POST or None,request.FILES, instance=obj)
+    category = Category.objects.all()
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
+    form = CommentForm(request.POST or None, request.FILES or None, instance=obj)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/'+id)
-    context['form'] = form
+    context= {
+        'category':category,
+        'form': form,
+        'user_extra': user_extra
+    }
     return render(request, 'comments/update_comments.html', context)
 
 @login_required
 # Delete operation:
 def delete_comments(request, id):
     context = {}
+    user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
+    category = Category.objects.all()
     obj = get_object_or_404(Comments, id=id)
+
     if request.method == "POST":
         obj.delete()
         return HttpResponseRedirect("/")
+
+    context ={
+        'obj': obj,
+        'user_extra':user_extra,
+        'category': category
+
+    }
     return render(request, "comments/delete_comments.html", context)

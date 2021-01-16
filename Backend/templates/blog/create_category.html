@@ -1,5 +1,48 @@
 {% extends 'base.html' %}
 
+{% block title %} 
+Create Category
+{% endblock title %} 
+
+
+{% block userinfo %}
+<!--userinfo-->
+<style>
+.profile_pic_user {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+</style>
+  {% for data in user_extra %}
+    <img
+        class="img-circle profile_pic_user"
+        src="{{ data.profile_img.url }}"
+    />
+  {% endfor %}
+{% endblock userinfo %}
+
+{% block breadcrumb %}
+    <style>
+      .breadcrumbStyle {
+        margin: 70px 20px 0px 20px;
+      }
+    </style>
+    <div class="breadcrumbStyle">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+            Create Category
+            </li>
+        </ol>
+      </nav>
+    </div>
+{% endblock %}
+
+
 {% block content %} 
 {% load crispy_forms_tags %}
 <div class="container-fluid mainContent">

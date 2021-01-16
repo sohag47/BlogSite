@@ -19,6 +19,7 @@ def dashboard(request):
 def CreateUserInfo(request):
     context = {}
     if request.user.is_authenticated:
+        user_extra = ExtraUserInfo.objects.filter(user_info=request.user)
         form = ExtraUserInfoForm(request.POST or None)
         if form.is_valid():
             instance = form.save(commit=False)
@@ -27,6 +28,7 @@ def CreateUserInfo(request):
             return HttpResponseRedirect('/')
 
         context = {
-            'form': form
+            'form': form,
+            'user_extra':user_extra
         }
     return render(request, 'accounts/create_userInfo.html', context)

@@ -1,4 +1,41 @@
-{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} 
+
+{% block category %}
+  <!--category-->
+  {% for i in category %}
+    <li class="nav-item text-black ">
+      <a class="nav-link text-black font-weight-bold"
+          href="{% url 'list_category' %}"> 
+          {{ i.category }} 
+      </a>
+    </li>
+  {% endfor %}
+{% endblock  %}
+
+{% block title %}
+Upadete Comments
+{% endblock title %}
+
+
+{% block userinfo %}
+<!--userinfo-->
+<style>
+.profile_pic_user {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+</style>
+  {% for data in user_extra %}
+    <img
+        class="img-circle profile_pic_user"
+        src="{{ data.profile_img.url }}"
+    />
+  {% endfor %}
+{% endblock userinfo %}
+
+
+{% block content %}
 
 <div class="container-fluid mainContent">
   <div class="row">
